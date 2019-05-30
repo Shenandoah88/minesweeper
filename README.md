@@ -29,3 +29,28 @@ Make sure to do out of bounds checks…
 **** Shen -  we need to figure out how to do the sha256 and salting with the sessions. 
 ****Austin - will do database
 ****Farris - Logic of building the table with the mine layouts and the counts
+
+
+
+GameBoard - the actual board created with mines locations and adjacent mines
+	0 - 8 - the count of number of adjacent bombs to each field 
+	-1 is an actual bomb
+GameState - User populated interactions 
+	0 - No interactions yet
+	1 - Left clicked to reveal adjacent mines and numbers of adjacent minds
+	-1 - right click to designate user guess of where a mine exists
+DisplayTable - is the combination of the actual game board and the user interaction thus far up until they loose the game. 
+	-5 - the field was flagged but not an actual bomb, this is not revealed until       the user looses the game by clicking on a -1
+	-4 - a The bomb that was clicked on to cause the loosing of the game
+	-3 - Untouched field that has yet to be clicked on or designated with an adjacent bomb count.
+	-2 - Flagged as a bomb by doing a right click, this is before a bomb is clicked, but is accurately flagged as being a bomb as well. 
+	-1 - actual bomb
+	0 - 8 - count of adjacent bombs
+	
+	Name pages
+	Login.php - loops if the username/password is inaccurate, or username exists but wrong password… needs a login and create buttons
+	Game.php - Updating through AJAX after logic.php is checked
+	Logic.php - performs all the checks after each user move
+	
+	Style.CSS 
+	logic.JS       AJAX is all built in here
