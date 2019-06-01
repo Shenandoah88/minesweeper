@@ -1,3 +1,7 @@
+<?php
+	include("global.php");
+
+?>
 <html>
     <head>
         <title>Minesweeper Login</title>
