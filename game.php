@@ -5,14 +5,8 @@
 	error_reporting(-1);
 
 	$gameBoard = buildGameBoard();
-	echo json_encode($gameBoard);
-	echo "<br><br><br>";
 	$gameBoard = populateMines($gameBoard);
-	echo json_encode($gameBoard);
-	echo "<br><br><br>";
 	$gameBoard = populateCounts($gameBoard);
-	echo json_encode($gameBoard);
-	echo "<br><br><br>";
 
 	function buildGameBoard() {
 
@@ -64,25 +58,22 @@
 		$yMax = $yCoord+1 < YMAX ? $yCoord+1 : YMAX-1;
 		$mineCount = 0;
 
-		echo "xCoord = " . $xCoord . " and yCoord = " . $yCoord . "<br>";
-		echo "xMin = " . $xMin . " and yMin = " . $yMin . "<br>";
-		echo "xMax = " . $xMax . " and yMax = " . $yMax . "<br>";
 		for ($x = $xMin; $x <= $xMax; $x++) {
 		    for ($y = $yMin; $y <= $yMax; $y++) {
-		        echo "      inside: x = " . $x . " and y = " . $y . "<br>";
-		        if ($x != $xCoord && $y != $yCoord) {
-		            if ($board[$x][$y] == -1) {
-		                $mineCount++;
-                    }
-                }
+				if ($board[$x][$y] == -1) {
+					$mineCount++;
+				}
             }
         }
-		echo "mineCount = " . $mineCount . "<br>";
-		echo "<br>";
 
         return $mineCount;
 
     }
+
+    //generate gameState
+
+    //persist the board
+
 
 
 
@@ -93,8 +84,20 @@
         <link href="style.css" rel="stylesheet" type="text/css" media="all">
     </head>
     <body>
-        <?= json_encode($gameBoard) ?>
+        <h1>Ultra Minesweeper</h1>
+        <h4>By: Us</h4>
 
+    <?php
+        echo "<table id='board'>";
+        for ($y = 0; $y < YMAX; $y++) {
+			echo "<tr id='" . $y . "'>";
+			for ($x = 0; $x < XMAX; $x++) {
+				echo "<td id='" . $x . "'>" . $gameBoard[$x][$y] . "</td>";
+			}
+			echo "</tr>";
+        }
+        echo "</table>";
+    ?>
         <script src="logic.js"></script>
     </body>
 </html>
