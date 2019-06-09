@@ -41,6 +41,7 @@ let retrieveData = function (buttonClicked, cellClicked) {
 //this function gets triggered when the ajax request returns from logic.php
 let logicCallback = function (data) {
     console.log("received response: ", data);
+    //data can be accessed like this: console.log(data.button);
 };
 
 //bind click events
