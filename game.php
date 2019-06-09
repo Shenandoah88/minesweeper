@@ -88,11 +88,11 @@
         <h4>By: Us</h4>
 
     <?php
-        echo "<table id='board'>";
+        echo "<table id='board' oncontextmenu='return false;'>";
         for ($y = 0; $y < YMAX; $y++) {
-			echo "<tr id='" . $y . "'>";
+			echo "<tr>";
 			for ($x = 0; $x < XMAX; $x++) {
-				echo "<td id='" . $x . "'>" . $gameBoard[$x][$y] . "</td>";
+				echo "<td id='" . $x . ":" . $y . "'>" . $gameBoard[$x][$y] . "</td>";
 			}
 			echo "</tr>";
         }
