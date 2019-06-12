@@ -35,6 +35,8 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 {
 	$username = $_POST["username"];
  	$password = $_POST["password"];
+	$salt = 'this$*+Salt+is++&*Being((*()used))_)(for**&&*^security+@)#($reasons888786';
+	$password = hash('sha256', $salt.$password);
 
 $checkUsername = "SELECT * FROM Users WHERE username = '$username' ";
 $resultUser = $conn->query($checkUsername);
@@ -43,6 +45,7 @@ $resultPass = $conn->query($checkPassword);
 
 if($resultUser->num_rows > 0 && $resultPass->num_rows > 0){
 echo "Welcome to Minesweeper, lets play!";
+	//game.php
 }else{
  echo "User and password combo do no exist, please create new user.";
 }
@@ -57,10 +60,9 @@ if(isset($_POST['usernameNew']))
 	$usernameNew = $_POST['usernameNew'];
  	$passwordNew = $_POST['passwordNew'];
 	$salt = 'this$*+Salt+is++&*Being((*()used))_)(for**&&*^security+@)#($reasons888786';
-	$password1 = hash($passwordNew);
-	$password2 = hash($password1.$salt);
+	$passwordNew = hash('sha256', $salt.$passwordNew);
 
-	$updateNew ="UPDATE Users SET password = $password2 WHERE username = $usernameNew";
+	$updateNew ="UPDATE Users SET password = '$passwordNew' WHERE username = '$usernameNew'";
 	$conn->query($updateNew);
 	
 }	
