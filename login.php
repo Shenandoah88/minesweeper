@@ -36,7 +36,9 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 	$username = $_POST["username"];
  	$password = $_POST["password"];
 	$salt = 'this$*+Salt+is++&*Being((*()used))_)(for**&&*^security+@)#($reasons888786';
-	$password = hash('sha256', $salt.$password);
+	$password = ($password.$salt);
+	$password = hash('sha256', $password);
+	$password = hash('sha256', $password);
 
 $checkUsername = "SELECT * FROM Users WHERE username = '$username' ";
 $resultUser = $conn->query($checkUsername);
@@ -60,7 +62,9 @@ if(isset($_POST['usernameNew']))
 	$usernameNew = $_POST['usernameNew'];
  	$passwordNew = $_POST['passwordNew'];
 	$salt = 'this$*+Salt+is++&*Being((*()used))_)(for**&&*^security+@)#($reasons888786';
-	$passwordNew = hash('sha256', $salt.$passwordNew);
+	$passwordNew = ($passwordNew.$salt);
+	$passwordNew = hash('sha256', $passwordNew);
+	$passwordNew = hash('sha256', $passwordNew);
 
 	$updateNew ="UPDATE Users SET password = '$passwordNew' WHERE username = '$usernameNew'";
 	$conn->query($updateNew);
