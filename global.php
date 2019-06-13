@@ -10,4 +10,8 @@
 	define("UNTOUCHED_CELL", -3);
 	define("FLAGGED_CELL", -2);
 	define("BOMB", -1);
+	define("servername", "sql201.epizy.com");
+	define("username","epiz_23998965");
+	define("password", "JPAonEiREfurGzW");
+	define("dbname", "epiz_23998965_Users");
 
