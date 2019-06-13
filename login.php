@@ -1,21 +1,11 @@
 <?php
 
-	//include("global.php");
-	//$username = $_POST['username'];
+	include("global.php");
 		
 
 	
 
 	
-
-$servername = "sql201.epizy.com";
-
-$username = "epiz_23998965";
-
-$password = "JPAonEiREfurGzW";
-
-$dbname = "epiz_23998965_Users";
-
 
 
 //Create connection
