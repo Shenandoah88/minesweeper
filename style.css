@@ -21,3 +21,24 @@ td {
     text-align: center;
     font-size: 24px;
 }
+
+.untouched {
+    background-image: url("square.png");
+}
+
+.bomb {
+    background-image: url("bomb.png");
+}
+
+.flagged {
+    background-image: url("Flag.png");
+}
+
+.bomb.red {
+    background-color: red;
+}
+
+.incorrect {
+    background-image: url("X.png");
+}
+

@@ -4,9 +4,11 @@
 	ini_set('display_errors', 1);
 	error_reporting(-1);
 
-	$gameBoard = buildGameBoard();
+	$gameState = buildGameBoard(); //tracks user interaction
+	$gameBoard = buildGameBoard(); //tracks locations of mines
 	$gameBoard = populateMines($gameBoard);
 	$gameBoard = populateCounts($gameBoard);
+	$displayBoard = buildDisplayBoard($gameBoard, $gameState, null);
 
 	function buildGameBoard() {
 
@@ -70,12 +72,6 @@
 
     }
 
-    //generate gameState
-
-    //persist the board
-
-
-
 
 ?>
 <html>
@@ -92,7 +88,27 @@
         for ($y = 0; $y < YMAX; $y++) {
 			echo "<tr>";
 			for ($x = 0; $x < XMAX; $x++) {
-				echo "<td id='" . $x . ":" . $y . "'>" . $gameBoard[$x][$y] . "</td>";
+			    $className = "";
+			    switch ($displayBoard[$x][$y]) {
+                    case BOMB:
+                        $className = "bomb";
+                        break;
+                    case FLAGGED_CELL:
+                        $className = "flagged";
+                        break;
+                    case FAIL_BOMB:
+                        $className = "bomb red";
+                        break;
+                    case INCORRECT_FLAG:
+                        $className = "incorrect";
+                        break;
+                    case UNTOUCHED_CELL:
+                        $className = "untouched";
+                        break;
+                    default:
+                        break;
+                }
+				echo "<td class='" . $className . "' id='" . $x . ":" . $y . "'>" . $displayBoard[$x][$y] . "</td>";
 			}
 			echo "</tr>";
         }
