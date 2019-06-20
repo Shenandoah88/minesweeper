@@ -24,7 +24,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
     $password = $_POST["password"];
     echo $password;
     //predetermined salt
-    $salt = 'this$*+Salt+is++&*Being((*()used))_)(for**&&*^security+@)#reasons888786';
+    $salt = 'This_ISARIDICULOUS___PLACE_TOBESO___SILLY';
     //salt added to password
     $password = ($password.$salt);
     //first hash with salt
@@ -53,11 +53,11 @@ if(isset($_POST['usernameNew']))
 {    //session variable name if new user
     $_SESSION["name"] = $_POST["usernameNew"];
     $insertNew = "INSERT INTO Users(username, password, salt)
-	VALUES('".$_POST['usernameNew']."', '".$_POST['passwordNew']."','this$*+Salt+is++&*Being((*()used))_)(for**&&*^security+@)#reasons888786'";
+	VALUES('".$_POST['usernameNew']."', '".$_POST['passwordNew']."','This_ISARIDICULOUS___PLACE_TOBESO___SILLY')";
     $conn->query($insertNew);
     $usernameNew = $_POST['usernameNew'];
     $passwordNew = $_POST['passwordNew'];
-    $salt = 'this$*+Salt+is++&*Being((*()used))_)(for**&&*^security+@)#($reasons888786';
+    $salt = 'This_ISARIDICULOUS___PLACE_TOBESO___SILLY';
     $passwordNew = ($passwordNew.$salt);
     $passwordNew = hash('sha256', $passwordNew);
     $passwordNew = hash('sha256', $passwordNew);
