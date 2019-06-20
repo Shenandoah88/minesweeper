@@ -22,13 +22,14 @@
 		return $board;
     }
 
+
     function populateMines($board) {
 
 	    $mineCount = MINE_COUNT;
         while ($mineCount > 0) {
 
-	        $xCoord = rand(0, XMAX-1);
-			$yCoord = rand(0, YMAX-1);
+	        $xCoord = rand(0, XMAX -1);
+			$yCoord = rand(0, YMAX -1);
 
 			if ($board[$xCoord][$yCoord] == 0) {
                 $board[$xCoord][$yCoord] = BOMB;
@@ -72,6 +73,10 @@
 
     }
 
+    //generate gameState
+
+    //persist the board
+
 
 ?>
 <html>
@@ -112,7 +117,8 @@
 			}
 			echo "</tr>";
         }
-        echo "</table>";
+        echo "</table><br><br>";
+
     ?>
         <script src="logic.js"></script>
     </body>
