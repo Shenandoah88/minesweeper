@@ -20,4 +20,9 @@ td {
     height: 64px;
     text-align: center;
     font-size: 24px;
+    background-color: darkgrey;
+}
+
+td.fail{
+    background-color: red;
 }

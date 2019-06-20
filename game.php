@@ -20,13 +20,14 @@
 		return $board;
     }
 
+
     function populateMines($board) {
 
 	    $mineCount = MINE_COUNT;
         while ($mineCount > 0) {
 
-	        $xCoord = rand(0, XMAX-1);
-			$yCoord = rand(0, YMAX-1);
+	        $xCoord = rand(0, XMAX -1);
+			$yCoord = rand(0, YMAX -1);
 
 			if ($board[$xCoord][$yCoord] == 0) {
                 $board[$xCoord][$yCoord] = BOMB;
@@ -70,11 +71,33 @@
 
     }
 
+
     //generate gameState
 
     //persist the board
 
+    function buildDisplayBoard() {
 
+    $board = array();
+    for ($x = 0; $x < XMAX; $x++) {
+        for ($y = 0; $y < YMAX; $y++) {
+            $board[$x][$y] = -3;
+        }
+    }
+
+    return $board;
+    }
+
+    $displayBoard = buildDisplayBoard();
+	$displayBoard[5][6] = INCORRECT_FLAG;
+    $displayBoard[1][4] = INCORRECT_FLAG;
+    $displayBoard[2][0] = FLAGGED_CELL;
+    $displayBoard[3][7] = FAIL_BOMB;
+    $displayBoard[4][1] = FLAGGED_CELL;
+    $displayBoard[0][3] = BOMB;
+    $displayBoard[8][8] = BOMB;
+    $displayBoard[7][5] = BOMB;
+    $displayBoard[0][0] = 0;
 
 
 ?>
@@ -92,11 +115,43 @@
         for ($y = 0; $y < YMAX; $y++) {
 			echo "<tr>";
 			for ($x = 0; $x < XMAX; $x++) {
-				echo "<td id='" . $x . ":" . $y . "'>" . $gameBoard[$x][$y] . "</td>";
+                if($gameBoard[$x][$y] == BOMB){
+                    echo "<td id='" . $x . ":" . $y . "'><img src='bomb.png' height='58' width='58' </td>";
+                }
+			    else {
+                    echo "<td id='" . $x . ":" . $y . "'>" . $gameBoard[$x][$y] . "</td>";
+                }
 			}
 			echo "</tr>";
         }
+        echo "</table><br><br>";
+        echo "<table id='displayBoard' oncontextmenu='return false;'>";
+        for ($y = 0; $y < YMAX; $y++) {
+            echo "<tr>";
+            for ($x = 0; $x < XMAX; $x++) {
+                if($displayBoard[$x][$y] == BOMB){
+                    echo "<td id='" . $x . ":" . $y . "'><img src='bomb.png' height='58' width='58' </td>";
+                }
+                else if($displayBoard[$x][$y] == FLAGGED_CELL){
+                    echo "<td id='" . $x . ":" . $y . "'><img src='flag.png' height='62' width='62' </td>";
+                }
+                else if($displayBoard[$x][$y] == INCORRECT_FLAG){
+                    echo "<td id='" . $x . ":" . $y . "'><img src='X.png' height='62' width='62' </td>";
+                }
+                else if($displayBoard[$x][$y] == FAIL_BOMB){
+                    echo "<td class = 'fail' id='" . $x . ":" . $y . "'><img src='bomb.png' height='58' width='58' </td>";
+                }
+                else if($displayBoard[$x][$y] == UNTOUCHED_CELL){
+                    echo "<td id='" . $x . ":" . $y . "'><img src='square.png' height='62' width='62' </td>";
+                }
+                else{
+                    echo "<td id='" . $x . ":" . $y . "'>" . $gameBoard[$x][$y] . "</td>";
+                }
+            }
+            echo "</tr>";
+        }
         echo "</table>";
+
     ?>
         <script src="logic.js"></script>
     </body>
