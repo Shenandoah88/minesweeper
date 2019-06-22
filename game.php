@@ -9,6 +9,10 @@
 	$gameBoard = populateMines($gameBoard);
 	$gameBoard = populateCounts($gameBoard);
 	$displayBoard = buildDisplayBoard($gameBoard, $gameState, null);
+	echo json_encode($gameBoard);
+	echo "<br>";
+	echo json_encode($gameState);
+	echo "<br>";
 
 	function buildGameBoard() {
 

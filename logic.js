@@ -1,3 +1,10 @@
+const CELL_CONSTANTS = {
+    "-5": "incorrect",
+    "-4": "bomb red",
+    "-3": "untouched",
+    "-2": "flagged",
+    "-1": "bomb"
+};
 
 //this function gets triggered when the user clicks on a cell
 let handleClick = function(event) {
@@ -41,7 +48,18 @@ let retrieveData = function (buttonClicked, cellClicked) {
 //this function gets triggered when the ajax request returns from logic.php
 let logicCallback = function (data) {
     console.log("received response: ", data);
-    //data can be accessed like this: console.log(data.button);
+
+    if (data && data.displayBoard) {
+        for (let x = data.displayBoard.length-1; x >= 0; x--) {
+            for (let y = data.displayBoard[0].length-1; y >= 0; y--) {
+                let id = x + ":" + y;
+                let cell = document.getElementById(id);
+                cell.innerHTML = data.displayBoard[x][y];
+                cell.classList = CELL_CONSTANTS[data.displayBoard[x][y]];
+            }
+
+        }
+    }
 };
 
 //bind click events
