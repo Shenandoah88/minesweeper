@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `Game` (
 -- Table structure for table `User`
 --
 
-CREATE TABLE IF NOT EXISTS `User` (
+CREATE TABLE IF NOT EXISTS `Users` (
   `username` text NOT NULL,
   `password` text NOT NULL,
   `salt` varchar(1048) NOT NULL DEFAULT 'this$*+Salt+is++&*Being((*()used))_)(for**&&*^security+@)#($reasons888786'
