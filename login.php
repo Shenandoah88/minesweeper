@@ -1,15 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
 <?php
 
 
@@ -138,7 +127,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
-    $checkUsername = "SELECT * FROM User WHERE username = '$username' ";
+    $checkUsername = "SELECT * FROM Users WHERE username = '$username' ";
 
 
 
@@ -150,7 +139,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
-    $checkPassword = "SELECT * FROM User WHERE password = '$password'";
+    $checkPassword = "SELECT * FROM Users WHERE password = '$password'";
 
 
 
@@ -202,67 +191,50 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
-if(isset($_POST['usernameNew']))
-
-
-
-{    //session variable name if new user
-
-
-
-    $_SESSION["name"] = $_POST["usernameNew"];
-
-
-
-    $insertNew = "INSERT INTO User(username, password, salt)
-
-
-
-	VALUES('".$_POST['usernameNew']."', '".$_POST['passwordNew']."','This_ISARIDICULOUS___PLACE_TOBESO___SILLY')";
-
-
-
-    $conn->query($insertNew);
-
-
-
+if(isset($_POST["usernameNew"])) {    //session variable name if new user
     $usernameNew = $_POST['usernameNew'];
+    $checkNewUsername = "SELECT * FROM Users WHERE username = '$usernameNew' ";
+    $resultNewUser = $conn->query($checkNewUsername);
+    if ($resultNewUser->num_rows > 0) {
+        echo "Username already exists, please try a new username.";
+    } else {
+        $_SESSION["name"] = $_POST["usernameNew"];
+
+
+        $insertNew = "INSERT INTO Users(username, password, salt)
 
 
 
-    $passwordNew = $_POST['passwordNew'];
+	VALUES('" . $_POST['usernameNew'] . "', '" . $_POST['passwordNew'] . "','This_ISARIDICULOUS___PLACE_TOBESO___SILLY')";
 
 
-
-    $salt = 'This_ISARIDICULOUS___PLACE_TOBESO___SILLY';
-
+        $conn->query($insertNew);
 
 
-    $passwordNew = ($passwordNew.$salt);
+        $passwordNew = $_POST['passwordNew'];
 
 
-
-    $passwordNew = hash('sha256', $passwordNew);
-
+        $salt = 'This_ISARIDICULOUS___PLACE_TOBESO___SILLY';
 
 
-    $passwordNew = hash('sha256', $passwordNew);
+        $passwordNew = ($passwordNew . $salt);
 
 
-
-    header("Location: http://ultraminesweeper.epizy.com/game.php");
-
+        $passwordNew = hash('sha256', $passwordNew);
 
 
+        $passwordNew = hash('sha256', $passwordNew);
 
 
+        header("Location: http://minesweeperbombs.epizy.com/game.php");
 
 
-    $updateNew ="UPDATE User SET password = '$passwordNew' WHERE username = '$usernameNew'";
+        $updateNew = "UPDATE User SET password = '$passwordNew' WHERE username = '$usernameNew'";
 
 
-
-    $conn->query($updateNew);}
+        $conn->query($updateNew);
+    }
+}
 
 
 
