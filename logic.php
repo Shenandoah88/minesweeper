@@ -4,15 +4,18 @@
 	ini_set('display_errors', 1);
 	error_reporting(-1);
 
+	session_start();
+
 	//reads the post body from the javascript
 	$postBody = file_get_contents('php://input');
 	$postObject = json_decode($postBody);
 
-	$hardCodedSessionId = "123";
-	$game = getStoredGame($hardCodedSessionId);
-	$gameBoard = json_decode($game['gameBoard']);
-	$gameState = json_decode($game['gameState']);
-	$gameOverCell = processInput($hardCodedSessionId, $postObject->cell, $postObject->button, $gameBoard, $gameState);
+	$name = $_SESSION['name'];
+	$name = "shen";
+	$game = getStoredGame($name);
+	$gameBoard = json_decode($game['gameboard']);
+	$gameState = json_decode($game['gamestate']);
+	$gameOverCell = processInput($name, $postObject->cell, $postObject->button, $gameBoard, $gameState);
 	$displayBoard = buildDisplayBoard($gameBoard, $gameState, $gameOverCell);
 
 	//build the response
@@ -20,7 +23,7 @@
 	$response->displayBoard = $displayBoard;
 	echo json_encode($response);
 
-	function processInput($sessionId, $cell, $button, &$gameBoard, &$gameState) {
+	function processInput($name, $cell, $button, &$gameBoard, &$gameState) {
 		$gameOverCell = null;
 		$cell = explode(":", $cell);
 		$x = $cell[0];
@@ -41,15 +44,15 @@
 			}
 		}
 
-		storeChanges($sessionId, $gameState);
+		storeChanges($name, $gameState);
 
 		return $gameOverCell;
 	}
 
-	function storeChanges($sessionId, $gameState) {
-	    $sql = "UPDATE Game
-	            SET gameState = '" . json_encode($gameState) . "'
-	            WHERE sessionId = '" . $sessionId . "'";
+	function storeChanges($name, $gameState) {
+	    $sql = "UPDATE Users
+	            SET gamestate = '" . json_encode($gameState) . "'
+	            WHERE username = '" . $name . "'";
 
         $conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
         if ($conn->connect_error) {
@@ -59,8 +62,8 @@
         $conn->query($sql);
     }
 
-	function getStoredGame($sessionId) {
-		$sql = "SELECT * FROM Game WHERE sessionID = " . $sessionId;
+	function getStoredGame($name) {
+		$sql = "SELECT * FROM Users WHERE username = '$name'";
 
 		$conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 		if ($conn->connect_error) {

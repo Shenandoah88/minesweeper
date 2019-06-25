@@ -11,31 +11,28 @@ error_reporting(-1);
 if (!isset($_SESSION['name'])) {
     die("go log in dummy");
 }
-
-$gameData = getGame();
+$name = $_SESSION['name'];
+$name = "shen"; //TODO remove this
+$gameData = getGame($name);
 if ($gameData) {
-    if ($gameData['active'] == "1") { //use existing game
-        $gameState = json_decode($gameData['gameState']);
-        $gameBoard = json_decode($gameData['gameBoard']);
-    } else { //generate new game
+//    if ($gameData['active'] == "1") { //use existing game
+//        echo "here";
+//        $gameState = json_decode($gameData['gamestate']);
+//        $gameBoard = json_decode($gameData['gameboard']);
+//    } else { //generate new game
+        echo "there";
         $gameState = buildGameBoard(); //tracks user interaction
         $gameBoard = buildGameBoard(); //tracks locations of mines
         $gameBoard = populateMines($gameBoard);
         $gameBoard = populateCounts($gameBoard);
-        persistGame($gameState, $gameBoard);
-    }
+        persistGame($name, $gameState, $gameBoard);
+//    }
+    $displayBoard = buildDisplayBoard($gameBoard, $gameState, null);
 }
 
-
-$displayBoard = buildDisplayBoard($gameBoard, $gameState, null);
-echo json_encode($gameBoard);
-echo "<br>";
-echo json_encode($gameState);
-echo "<br>";
-
-function getGame() {
+function getGame($name) {
     $sql = "SELECT * FROM Users 
-            WHERE username = '" . $_SESSION['name'] . "'";
+            WHERE username = '$name'";
 
     $conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
     if ($conn->connect_error) {
@@ -51,15 +48,24 @@ function getGame() {
     return null;
 }
 
-function persistGame($gameState, $gameBoard) {
-    $sql = ""; //TODO write new query
+function persistGame($name, $gameState, $gameBoard) {
+    echo "1";
+    echo $name;
+    $gameBoardString = json_encode($gameBoard);
+    $gameStateString = json_encode($gameState);
+    $sql = "UPDATE Users
+            SET gameboard = '$gameBoardString', gamestate = '$gameStateString', active = 1
+            WHERE username = '$name'";
 
     $conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
     if ($conn->connect_error) {
-        die("game didn't persist");
+        die("persistGame couldn't connect");
     }
+    echo "2";
 
     $result = $conn->query($sql);
+    echo "3";
+    echo mysqli_error($conn);
 }
 
 function buildGameBoard() {
