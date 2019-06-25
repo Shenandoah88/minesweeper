@@ -8,15 +8,59 @@ ini_set('display_startup_errors', 1);
 ini_set('display_errors', 1);
 error_reporting(-1);
 
-$gameState = buildGameBoard(); //tracks user interaction
-$gameBoard = buildGameBoard(); //tracks locations of mines
-$gameBoard = populateMines($gameBoard);
-$gameBoard = populateCounts($gameBoard);
+if (!isset($_SESSION['name'])) {
+    die("go log in dummy");
+}
+
+$gameData = getGame();
+if ($gameData) {
+    if ($gameData['active'] == "1") { //use existing game
+        $gameState = json_decode($gameData['gameState']);
+        $gameBoard = json_decode($gameData['gameBoard']);
+    } else { //generate new game
+        $gameState = buildGameBoard(); //tracks user interaction
+        $gameBoard = buildGameBoard(); //tracks locations of mines
+        $gameBoard = populateMines($gameBoard);
+        $gameBoard = populateCounts($gameBoard);
+        persistGame($gameState, $gameBoard);
+    }
+}
+
+
 $displayBoard = buildDisplayBoard($gameBoard, $gameState, null);
 echo json_encode($gameBoard);
 echo "<br>";
 echo json_encode($gameState);
 echo "<br>";
+
+function getGame() {
+    $sql = "SELECT * FROM Users 
+            WHERE username = '" . $_SESSION['name'] . "'";
+
+    $conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
+    if ($conn->connect_error) {
+        die("couldn't connect");
+    }
+
+    $result = $conn->query($sql);
+
+    if ($result) {
+        $row = mysqli_fetch_array($result);
+        return $row;
+    }
+    return null;
+}
+
+function persistGame($gameState, $gameBoard) {
+    $sql = ""; //TODO write new query
+
+    $conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
+    if ($conn->connect_error) {
+        die("game didn't persist");
+    }
+
+    $result = $conn->query($sql);
+}
 
 function buildGameBoard() {
 
