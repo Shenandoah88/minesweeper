@@ -10,6 +10,7 @@ error_reporting(-1);
 
 
 
+
 session_start();
 
 if (!isset($_SESSION['name'])) {
@@ -26,15 +27,15 @@ $gameData = getGame($name);
 
 if ($gameData) {
 
-    if ($gameData['active'] == "1") { //use existing game
+//    if ($gameData['active'] == "1") { //use existing game
 
-        echo "here";
+//        echo "here";
 
-        $gameState = json_decode($gameData['gamestate']);
+//        $gameState = json_decode($gameData['gamestate']);
 
-        $gameBoard = json_decode($gameData['gameboard']);
+//        $gameBoard = json_decode($gameData['gameboard']);
 
-} else { //generate new game
+//    } else { //generate new game
 
         echo "there";
 
@@ -48,7 +49,7 @@ if ($gameData) {
 
         persistGame($name, $gameState, $gameBoard);
 
-    }
+//    }
 
     $displayBoard = buildDisplayBoard($gameBoard, $gameState, null, $name);
 
@@ -300,39 +301,21 @@ echo "Welcome  " .$_SESSION["name"];
 
 
 
+<script src="lib/easytimer/dist/easytimer.min.js"></script>
 <script>
-
-    
-
-    var timerVar = setInterval(countTimer, 1000);
-
-    var totalSeconds = 0;
-
-    function countTimer() {
-
-        ++totalSeconds;
-
-        var hour = Math.floor(totalSeconds / 3600);
-
-        var minute = Math.floor((totalSeconds - (hour*3600))/ 60);
-
-        var seconds = totalSeconds - ((hour*3600) + (minute*60));
-
-        
-
-        document.getElementById("timer").innerHTML = hour + ":" + minute + ":" + seconds;
-
-    }
-
-    
-
-    
-
+var timerInstance = new easytimer.Timer();
+var timer = new Timer();
+timer.start();
+timer.addEventListener('secondsUpdated', function (e) {
+$('#basicUsage').html(timer.getTimeValues().toString());
+});
 </script>
 
 
+<h2><p>Seconds elapsed : </p></h2>
 
-<h2><div id="timer"></div></h2>
+
+<h2><div id="basicUsage">00:00:00</div></h2>
 
 <form action="login.php" method="post">
 
@@ -403,7 +386,7 @@ echo "</table><br><br>";
 
 
 ?>
-<h2><div = "gameOver"></div></h2>
+
 <script src="logic.js"></script>
 
 </body>
