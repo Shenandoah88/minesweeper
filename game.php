@@ -26,15 +26,15 @@ $gameData = getGame($name);
 
 if ($gameData) {
 
-//    if ($gameData['active'] == "1") { //use existing game
+    if ($gameData['active'] == "1") { //use existing game
 
-//        echo "here";
+        echo "here";
 
-//        $gameState = json_decode($gameData['gamestate']);
+        $gameState = json_decode($gameData['gamestate']);
 
-//        $gameBoard = json_decode($gameData['gameboard']);
+        $gameBoard = json_decode($gameData['gameboard']);
 
-//    } else { //generate new game
+} else { //generate new game
 
         echo "there";
 
@@ -48,7 +48,7 @@ if ($gameData) {
 
         persistGame($name, $gameState, $gameBoard);
 
-//    }
+    }
 
     $displayBoard = buildDisplayBoard($gameBoard, $gameState, null, $name);
 
