@@ -1,5 +1,14 @@
 
+
 <?php
+
+
+
+
+
+
+
+
 
 
 
@@ -11,9 +20,19 @@
 
 
 
+
+
+
+
 include("global.php");
 
+
+
 session_start();
+
+
+
+
 
 
 
@@ -25,7 +44,19 @@ $_SESSION["name"] = "";
 
 
 
+
+
+
+
+
+
+
+
 //Create connection for MYSQL database
+
+
+
+
 
 
 
@@ -37,7 +68,19 @@ $conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 
 
 
+
+
+
+
+
+
+
+
 //Check connection
+
+
+
+
 
 
 
@@ -45,7 +88,15 @@ if ($conn->connect_error) {
 
 
 
+
+
+
+
     die("Connection failed: " . $conn->connect_error);
+
+
+
+
 
 
 
@@ -53,7 +104,15 @@ if ($conn->connect_error) {
 
 
 
+
+
+
+
 //checks if data is put in the username and password fields for existing users
+
+
+
+
 
 
 
@@ -61,13 +120,27 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
     //session variable is this username if user already exists
 
+
+
     $_SESSION["name"] = $_POST["username"];
+
+
+
+
 
 
 
@@ -75,7 +148,15 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
     $username = $_POST["username"];
+
+
+
+
 
 
 
@@ -83,7 +164,15 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
     echo $password;
+
+
+
+
 
 
 
@@ -91,7 +180,15 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
     $salt = 'This_ISARIDICULOUS___PLACE_TOBESO___SILLY';
+
+
+
+
 
 
 
@@ -99,7 +196,15 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
     $password = ($password.$salt);
+
+
+
+
 
 
 
@@ -107,7 +212,15 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
     $password = hash('sha256', $password);
+
+
+
+
 
 
 
@@ -115,7 +228,19 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
     $password = hash('sha256', $password);
+
+
+
+
+
+
+
+
 
 
 
@@ -127,7 +252,15 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
     $checkUsername = "SELECT * FROM Users WHERE username = '$username' ";
+
+
+
+
 
 
 
@@ -135,7 +268,15 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
     //checks to see if password exists
+
+
+
+
 
 
 
@@ -143,7 +284,15 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
     $resultPass = $conn->query($checkPassword);
+
+
+
+
 
 
 
@@ -151,7 +300,15 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
     if($resultUser->num_rows > 0 && $resultPass->num_rows > 0){
+
+
+
+
 
 
 
@@ -159,7 +316,15 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
         header("Location: http://minesweeperbombs.epizy.com/game.php");
+
+
+
+
 
 
 
@@ -167,7 +332,15 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
         echo "User and password combo do no exist, please create new user.";
+
+
+
+
 
 
 
@@ -175,7 +348,23 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -191,50 +380,109 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
+
+
+
+
 if(isset($_POST["usernameNew"])) {    //session variable name if new user
+
     $usernameNew = $_POST['usernameNew'];
+
     $checkNewUsername = "SELECT * FROM Users WHERE username = '$usernameNew' ";
+
     $resultNewUser = $conn->query($checkNewUsername);
+
     if ($resultNewUser->num_rows > 0) {
+
         echo "Username already exists, please try a new username.";
+
     } else {
+
         $_SESSION["name"] = $_POST["usernameNew"];
+
+
+
 
 
         $insertNew = "INSERT INTO Users(username, password, salt)
 
 
 
+
+
+
+
 	VALUES('" . $_POST['usernameNew'] . "', '" . $_POST['passwordNew'] . "','This_ISARIDICULOUS___PLACE_TOBESO___SILLY')";
+
+
+
 
 
         $conn->query($insertNew);
 
 
+
+
+
         $passwordNew = $_POST['passwordNew'];
+
+
+
 
 
         $salt = 'This_ISARIDICULOUS___PLACE_TOBESO___SILLY';
 
 
+
+
+
         $passwordNew = ($passwordNew . $salt);
 
 
+
+
+
         $passwordNew = hash('sha256', $passwordNew);
 
 
+
+
+
         $passwordNew = hash('sha256', $passwordNew);
+
+
+
 
 
         header("Location: http://minesweeperbombs.epizy.com/game.php");
 
 
-        $updateNew = "UPDATE User SET password = '$passwordNew' WHERE username = '$usernameNew'";
+
+
+
+        $updateNew = "UPDATE Users SET password = '$passwordNew' WHERE username = '$usernameNew'";
+
+
+
 
 
         $conn->query($updateNew);
+
     }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -254,7 +502,23 @@ $conn->close()
 
 
 
+
+
+
+
+
+
+
+
 ?>
+
+
+
+
+
+
+
+
 
 
 
@@ -266,7 +530,15 @@ $conn->close()
 
 
 
+
+
+
+
 <head>
+
+
+
+
 
 
 
@@ -274,7 +546,15 @@ $conn->close()
 
 
 
+
+
+
+
     <link href="style.css" rel="stylesheet" type="text/css" media="all">
+
+
+
+
 
 
 
@@ -282,7 +562,15 @@ $conn->close()
 
 
 
+
+
+
+
 <body>
+
+
+
+
 
 
 
@@ -290,7 +578,15 @@ $conn->close()
 
 
 
+
+
+
+
 <Form action="" method="post" >
+
+
+
+
 
 
 
@@ -298,11 +594,23 @@ $conn->close()
 
 
 
+
+
+
+
     <input type="text" name="username" id="username">
 
 
 
+
+
+
+
     <br>
+
+
+
+
 
 
 
@@ -310,19 +618,39 @@ $conn->close()
 
 
 
+
+
+
+
     <input type="text" name="password" id="password">
 
 
 
-    <br>
 
-
-
-    <br>
 
 
 
     <br>
+
+
+
+
+
+
+
+    <br>
+
+
+
+
+
+
+
+    <br>
+
+
+
+
 
 
 
@@ -330,7 +658,19 @@ $conn->close()
 
 
 
+
+
+
+
 </form>
+
+
+
+
+
+
+
+
 
 
 
@@ -342,7 +682,15 @@ $conn->close()
 
 
 
+
+
+
+
 <Form action="" method="post">
+
+
+
+
 
 
 
@@ -350,11 +698,23 @@ $conn->close()
 
 
 
+
+
+
+
     <input type="text" name="usernameNew" id="usernameNew" >
 
 
 
+
+
+
+
     <br>
+
+
+
+
 
 
 
@@ -362,23 +722,47 @@ $conn->close()
 
 
 
+
+
+
+
     <input type="text" name="passwordNew" id="passwordNew">
 
 
 
-    <br>
 
-
-
-    <br>
 
 
 
     <br>
+
+
+
+
+
+
+
+    <br>
+
+
+
+
+
+
+
+    <br>
+
+
+
+
 
 
 
     <input type="submit" value="Submit" id="submitNew">
+
+
+
+
 
 
 
@@ -390,7 +774,19 @@ $conn->close()
 
 
 
+
+
+
+
+
+
+
+
 <script src="logic.js"></script>
+
+
+
+
 
 
 
@@ -398,7 +794,43 @@ $conn->close()
 
 
 
+
+
+
+
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
