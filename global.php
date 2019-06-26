@@ -60,7 +60,7 @@ function buildDisplayBoard($gameBoard, $gameState, $gameOverCell, $name) {
             $displayBoard[$x][$y] = $cellValue;
         }
     }
-    checkGame($gameBoard, $gameState, $name);
+    //checkGame($gameBoard, $gameState, $name);
     return $displayBoard;
 }
 
@@ -78,7 +78,7 @@ function lostGame($name){
     $conn->query($sql);
 }
 
-
+/*
 function checkGame($gameBoard, $gameState, $name){
 
     for ($x = 0; $x < XMAX; $x++) {
@@ -107,6 +107,6 @@ function checkGame($gameBoard, $gameState, $name){
 
     $conn->query($sql);*/
 
-}
+}*/
 
 
