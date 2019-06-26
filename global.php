@@ -60,7 +60,6 @@ function buildDisplayBoard($gameBoard, $gameState, $gameOverCell, $name) {
             $displayBoard[$x][$y] = $cellValue;
         }
     }
-    //checkGame($gameBoard, $gameState, $name);
     return $displayBoard;
 }
 
@@ -77,36 +76,3 @@ function lostGame($name){
 
     $conn->query($sql);
 }
-
-/*
-function checkGame($gameBoard, $gameState, $name){
-
-    for ($x = 0; $x < XMAX; $x++) {
-        for ($y = 0; $y < YMAX; $y++) {
-            echo "HERE2";
-            if($gameState[$x][$y] == -1) {
-                if ($gameState[$x][$y] == -1 && $gameBoard[$x][$y] != -1) {
-                    return;
-                }
-            }
-            else if($gameState[$x][$y] == 0){
-                echo "there2";
-                return;
-            }
-
-        }
-    }
-    /*$sql = "UPDATE Users
-                            SET active = 0
-                            WHERE username = '$name'";
-
-    $conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
-    if ($conn->connect_error) {
-        die("wonGame couldn't connect");
-    }
-
-    $conn->query($sql);*/
-
-}*/
-
-
