@@ -403,7 +403,7 @@ echo "</table><br><br>";
 
 
 ?>
-
+<h2><div = "gameOver"></div></h2>
 <script src="logic.js"></script>
 
 </body>
