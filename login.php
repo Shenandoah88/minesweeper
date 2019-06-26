@@ -13,11 +13,11 @@
 
 include("global.php");
 
+session_start();
 
 
 
-
-
+$_SESSION["name"] = "";
 
 
 

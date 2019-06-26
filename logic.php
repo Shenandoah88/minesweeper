@@ -10,13 +10,12 @@
 	$postBody = file_get_contents('php://input');
 	$postObject = json_decode($postBody);
 
-	$name = $_SESSION['name'];
-	$name = "shen";
+	$name = $_SESSION["name"];
 	$game = getStoredGame($name);
 	$gameBoard = json_decode($game['gameboard']);
 	$gameState = json_decode($game['gamestate']);
 	$gameOverCell = processInput($name, $postObject->cell, $postObject->button, $gameBoard, $gameState);
-	$displayBoard = buildDisplayBoard($gameBoard, $gameState, $gameOverCell);
+	$displayBoard = buildDisplayBoard($gameBoard, $gameState, $gameOverCell, $name);
 
 	//build the response
 	$response = (object)[];

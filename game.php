@@ -1,33 +1,30 @@
 <?php
-session_start();
-?>
-
-<?php
 include("global.php");
 ini_set('display_startup_errors', 1);
 ini_set('display_errors', 1);
 error_reporting(-1);
 
+session_start();
 if (!isset($_SESSION['name'])) {
     die("go log in dummy");
 }
-$name = $_SESSION['name'];
-$name = "shen"; //TODO remove this
+$name = $_SESSION["name"];
+
 $gameData = getGame($name);
 if ($gameData) {
-//    if ($gameData['active'] == "1") { //use existing game
-//        echo "here";
-//        $gameState = json_decode($gameData['gamestate']);
-//        $gameBoard = json_decode($gameData['gameboard']);
-//    } else { //generate new game
+    if ($gameData['active'] == 1) { //use existing game
+       echo "here";
+       $gameState = json_decode($gameData['gamestate']);
+        $gameBoard = json_decode($gameData['gameboard']);
+   } else { //generate new game
         echo "there";
         $gameState = buildGameBoard(); //tracks user interaction
         $gameBoard = buildGameBoard(); //tracks locations of mines
         $gameBoard = populateMines($gameBoard);
         $gameBoard = populateCounts($gameBoard);
         persistGame($name, $gameState, $gameBoard);
-//    }
-    $displayBoard = buildDisplayBoard($gameBoard, $gameState, null);
+  }
+    $displayBoard = buildDisplayBoard($gameBoard, $gameState, null, $name);
 }
 
 function getGame($name) {
@@ -53,8 +50,9 @@ function persistGame($name, $gameState, $gameBoard) {
     echo $name;
     $gameBoardString = json_encode($gameBoard);
     $gameStateString = json_encode($gameState);
+    $startTime = time();
     $sql = "UPDATE Users
-            SET gameboard = '$gameBoardString', gamestate = '$gameStateString', active = 1
+            SET gameboard = '$gameBoardString', gamestate = '$gameStateString', active = 1, startTime = '$startTime'
             WHERE username = '$name'";
 
     $conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);

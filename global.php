@@ -28,7 +28,7 @@ function session_valid_id($session_id)
 }
 
 
-function buildDisplayBoard($gameBoard, $gameState, $gameOverCell) {
+function buildDisplayBoard($gameBoard, $gameState, $gameOverCell, $name) {
 
     $displayBoard = array();
     for ($x = 0; $x < XMAX; $x++) {
@@ -45,6 +45,7 @@ function buildDisplayBoard($gameBoard, $gameState, $gameOverCell) {
                 case LEFT_CLICK: //reveal the true value of the cell
                     if ($gameBoard[$x][$y] == BOMB && $gameOverCell->x == $x && $gameOverCell->y == $y) {
                         $cellValue = FAIL_BOMB;
+                        lostGame($name);
                     } else {
                         $cellValue = $gameBoard[$x][$y];
                     }
@@ -59,5 +60,20 @@ function buildDisplayBoard($gameBoard, $gameState, $gameOverCell) {
         }
     }
     return $displayBoard;
+}
+
+function lostGame($name){
+
+    $sql = "UPDATE Users
+            SET active = 0
+            WHERE username = '$name'";
+
+    $conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
+    if ($conn->connect_error) {
+        die("lostGame couldn't connect");
+    }
+
+    $conn->query($sql);
+
 }
 
