@@ -16,10 +16,10 @@ define("BOMB", -1);
 define("LEFT_CLICK", 1);
 define("RIGHT_CLICK", -1);
 define("NO_INTERACTION", 0);
-define("SERVERNAME", "sql201.epizy.com");
-define("USERNAME","epiz_23998965");
-define("PASSWORD", "JPAonEiREfurGzW");
-define("DBNAME", "epiz_23998965_Users");
+define("SERVERNAME", "sql111.epizy.com");
+define("USERNAME","epiz_23985290");
+define("PASSWORD", "3fRx6d6h");
+define("DBNAME", "epiz_23985290_minesweeper");
 
 
 function session_valid_id($session_id)
@@ -75,4 +75,5 @@ function lostGame($name){
     }
 
     $conn->query($sql);
+
 }

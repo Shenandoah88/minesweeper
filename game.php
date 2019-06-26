@@ -28,7 +28,6 @@ if ($gameData) {
 
     if ($gameData['active'] == "1") { //use existing game
 
-        echo "here";
 
         $gameState = json_decode($gameData['gamestate']);
 
@@ -36,7 +35,6 @@ if ($gameData) {
 
 } else { //generate new game
 
-        echo "there";
 
         $gameState = buildGameBoard(); //tracks user interaction
 
@@ -92,10 +90,6 @@ function getGame($name) {
 
 function persistGame($name, $gameState, $gameBoard) {
 
-    echo "1";
-
-    echo $name;
-
     $gameBoardString = json_encode($gameBoard);
 
     $gameStateString = json_encode($gameState);
@@ -116,13 +110,11 @@ function persistGame($name, $gameState, $gameBoard) {
 
     }
 
-    echo "2";
-
 
 
     $result = $conn->query($sql);
 
-    echo "3";
+
 
     echo mysqli_error($conn);
 

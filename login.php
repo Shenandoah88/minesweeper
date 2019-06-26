@@ -320,7 +320,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]))
 
 
 
-        header("Location: http://minesweeperbombs.epizy.com/game.php");
+        header("Location: http://ultraminesweeper.epizy.com/game.php");
 
 
 
@@ -454,7 +454,7 @@ if(isset($_POST["usernameNew"])) {    //session variable name if new user
 
 
 
-        header("Location: http://minesweeperbombs.epizy.com/game.php");
+        header("Location: http://ultraminesweeper.epizy.com/game.php");
 
 
 

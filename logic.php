@@ -34,7 +34,20 @@
 
 	$displayBoard = buildDisplayBoard($gameBoard, $gameState, $gameOverCell, $name);
 
+    $check = checkWin($displayBoard, $gameState);
 
+    if($check == true){
+        $sql = "UPDATE Users
+            SET active = 0
+            WHERE username = '$name'";
+
+        $conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
+        if ($conn->connect_error) {
+            die("wonGame couldn't connect");
+        }
+
+        $conn->query($sql);
+    }
 
 	//build the response
 
@@ -45,6 +58,26 @@
 	echo json_encode($response);
 
 
+    function checkWin($gameBoard, $gameState){
+
+    $count = 0;
+
+    for ($x = 0; $x < XMAX; $x++) {
+        for ($y = 0; $y < YMAX; $y++) {
+            if($gameState[$x][$y] = -1 && $gameBoard[$x][$y] == -1){
+                ++$count;
+            }
+        }
+    }
+
+    if($count == 10){
+        return true;
+    }
+    else{
+        return false;
+    }
+
+    }
 
 	function processInput($name, $cell, $button, &$gameBoard, &$gameState) {
 
