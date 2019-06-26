@@ -50,7 +50,7 @@ function persistGame($name, $gameState, $gameBoard) {
     echo $name;
     $gameBoardString = json_encode($gameBoard);
     $gameStateString = json_encode($gameState);
-    $startTime = time();
+    $startTime = date( "s", time());
     $sql = "UPDATE Users
             SET gameboard = '$gameBoardString', gamestate = '$gameStateString', active = 1, startTime = '$startTime'
             WHERE username = '$name'";
